@@ -6,9 +6,6 @@ const { exit } = require('node:process');
 
 const filePath = path.join(__dirname, 'tasks.txt');
 
-
-
-
 const getInput = (question) => {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -131,7 +128,6 @@ async function main() {
 
             default:
                 console.log('please enter a valid choice');
-
         }
     }
 }
