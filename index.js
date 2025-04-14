@@ -37,6 +37,7 @@ const addTask = async () => {
             await fs.writeFile(filePath, task);
         }
     } catch (error) {
+        console.error('Error adding task:', error);
     }
 }
 
@@ -53,11 +54,12 @@ const viewFile = async () => {
 }
 
 async function deleteTask() {
-    const taskIndex = await getInput('Enter the task number to delete: ');
-    try{
+    const index = await getInput('Enter the task number to delete: ');
+    const taskIndex = parseInt(index);
+ try{
         const data = await viewFile();
         if (data.length > 0) {
-            if (taskIndex > 0 && taskIndex < data.length) {
+            if (taskIndex > 0 && taskIndex <= data.length) {
                 const updatedTasks = data.filter((_, index) => index !== taskIndex - 1);
                 await fs.writeFile(filePath, updatedTasks.join('\n'));
                 console.log('Task deleted successfully!');
@@ -74,11 +76,12 @@ async function deleteTask() {
 }
 
 async function markTaskAsDone() {
-    const taskIndex = await getInput('Enter the task number to mark as done: ');
-    try {
+    const index = await getInput('Enter the task number to mark as done: ');
+    const taskIndex = parseInt(index);
+   try {
         const data = await viewFile();
         if (data.length > 0) {
-            if (taskIndex > 0 && taskIndex < data.length) {
+            if (taskIndex > 0 && taskIndex <= data.length) {
                 data[taskIndex - 1] = `${data[taskIndex - 1]} [Done]`;
                 await fs.writeFile(filePath, data.join('\n'));
                 console.log('Task marked as done!');
@@ -105,7 +108,7 @@ async function main() {
             case '1':
                 await addTask();
                 break;
-                console.log(choice);
+                
             case '2':
                 const data = await viewFile();
                 if (data.length > 0) {
@@ -123,6 +126,7 @@ async function main() {
                 break;
             case '4':
                await deleteTask();
+               break;
             case '5':
                 exit();
 
